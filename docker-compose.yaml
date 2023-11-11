@@ -11,20 +11,20 @@ services:
       MYSQL_DATABASE: skillstracker
     command: --secure-file-priv="/docker-entrypoint-initdb.d"
     volumes:
-#      - ./data/persistent_storage:/var/lib/mysql
+      - ./data/persistent_storage:/var/lib/mysql
       - ./data/db_init/:/docker-entrypoint-initdb.d/
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s
-#  skilltracker-api:
-#    build: ./tracking_app_api
-#    environment:
-#      - DB_NAME=skillstracker
-#      - DB_PORT=3306
-#      - DB_HOST=mysql_db
-#      - DB_CF_ALG_USER=root
-#      - DB_CF_ALG_PASS=tuddiroot
-#    ports:
-#      - 8080:8080
-#    depends_on:
-#      - "mysql_db"
+  skilltracker-api:
+    build: ./tracking_app_api
+    environment:
+      - DB_NAME=skillstracker
+      - DB_PORT=3306
+      - DB_HOST=mysql_db
+      - DB_CF_ALG_USER=root
+      - DB_CF_ALG_PASS=tuddiroot
+    ports:
+      - 8080:8080
+    depends_on:
+      - "mysql_db"
